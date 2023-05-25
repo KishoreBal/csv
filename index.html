@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSV File Video</title>
+</head>
+<body>
+  <input type="file" id="csvFileInput">
+  <video controls id="videoPlayer">
+    <source id="videoSource" {{videoSource}} type="video/mp4">
+    <!-- If you have additional video formats, add them as additional <source> elements -->
+    Your browser does not support the video tag.
+  </video>
+
+  <script>
+    const csvFileInput = document.getElementById('csvFileInput');
+    const videoSource = document.getElementById('videoSource');
+    const videoPlayer = document.getElementById('videoPlayer');
+
+    csvFileInput.addEventListener('change', handleFileSelect);
+
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const csvData = e.target.result;
+        // Process the CSV data and extract the video URL
+        const videoUrl = processCsvData(csvData);
+
+        // Update the video source URL
+        videoSource.src = videoUrl;
+        videoPlayer.load();
+      };
+
+      reader.readAsText(file);
+    }
+
+    function processCsvData(csvData) {
+      // Perform the necessary operations to extract the video URL from the CSV data
+      // You would need to parse the CSV and retrieve the URL based on your specific format
+
+      // Example: Assuming the video URL is in the first column of the CSV
+      const csvRows = csvData.split('\n');
+      const firstRow = csvRows[0].split(',');
+      const videoUrl = firstRow[0];
+
+      return videoUrl;
+    }
+  </script>
+</body>
+</html>
